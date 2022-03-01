@@ -1,13 +1,6 @@
 const fs = require("fs");
 
 class Visitor {
-  fullName;
-  age;
-  visitDate;
-  visitTime;
-  comments;
-  assistantName;
-
   constructor(fullName, age, visitDate, visitTime, comments, assistantName) {
     this.fullName = fullName;
     this.age = age;

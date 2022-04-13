@@ -15,8 +15,46 @@ const addNewVisitor = async (visitor) => {
     ];
 
     await pool.query(sqlQuery, values);
-    console.log("Visitor added");
+    console.log("Visitor Added");
   } catch (err) {
     console.log(`Error while adding visitor: ${err}`);
   }
 };
+
+const listAllVisitors = async () => {
+  try {
+    const sqlQuery = "SELECT * FROM Visitors";
+
+    const response = await pool.query(sqlQuery);
+    return response.rows;
+  } catch (err) {
+    console.log(`Error while listing visitors: ${err}`);
+  }
+};
+
+const deleteVisitor = async (visitorID) => {
+  try {
+    const sqlQuery = "DELETE FROM Visitors WHERE ID = $1";
+    const value = [visitorID];
+
+    await pool.query(sqlQuery, value);
+    console.log("Visitor Deleted");
+  } catch (err) {
+    console.log(`Error while deleting visitors: ${err}`);
+  }
+};
+
+const updateVisitor = async (visitorID, newData) => {};
+
+let data = {
+  full_name: "Dave Chapel",
+  comments: "Actually pretty good",
+};
+
+let arr = [];
+
+for (let key in data) {
+  arr.push(`${key} = ${data[key]}`);
+}
+
+console.log(arr);

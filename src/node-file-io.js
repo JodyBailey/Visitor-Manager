@@ -44,16 +44,4 @@ let john = new Visitor(
   "Alexa Barbara"
 );
 
-let alex = new Visitor(
-  "Alex Cooper",
-  32,
-  "2022-01-02",
-  "12:22",
-  "Pretty Average",
-  "Alexa Barbara"
-);
-
-john.save();
-alex.save();
-load("John Smith");
-load("Alex Cooper");
+module.exports = { john };

@@ -38,7 +38,7 @@ const load = (fullName) => {
 let john = new Visitor(
   "John Smith",
   21,
-  "23 Feb 2022",
+  "2022-02-23",
   "16:54",
   "Amazing stuff I tell you",
   "Alexa Barbara"
@@ -47,7 +47,7 @@ let john = new Visitor(
 let alex = new Visitor(
   "Alex Cooper",
   32,
-  "2 January 2022",
+  "2022-01-02",
   "12:22",
   "Pretty Average",
   "Alexa Barbara"

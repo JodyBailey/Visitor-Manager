@@ -1,0 +1,25 @@
+{
+  "name": "jody-bailey-280-node-file-io-javascript",
+  "version": "1.0.0",
+  "description": "Node & File IO (280) For raw project instructions see: http://syllabus.africacode.net/projects/nodejs/file-io/",
+  "main": "node-file-io.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Umuzi-org/Jody-Bailey-280-node-file-io-javascript.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Umuzi-org/Jody-Bailey-280-node-file-io-javascript/issues"
+  },
+  "homepage": "https://github.com/Umuzi-org/Jody-Bailey-280-node-file-io-javascript#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "jasmine": "^4.1.0",
+    "pg": "^8.7.3"
+  }
+}

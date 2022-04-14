@@ -35,7 +35,7 @@ const load = (fullName) => {
   });
 };
 
-let john = new Visitor(
+const john = new Visitor(
   "John Smith",
   21,
   "2022-02-23",
@@ -44,4 +44,13 @@ let john = new Visitor(
   "Alexa Barbara"
 );
 
-module.exports = { john };
+const alex = new Visitor(
+  "Alex Cooper",
+  32,
+  "2 January 2022",
+  "12:22",
+  "Pretty Average",
+  "Alexa Barbara"
+);
+
+module.exports = { john, alex };

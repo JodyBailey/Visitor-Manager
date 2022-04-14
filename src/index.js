@@ -1,5 +1,5 @@
-const { pool } = require("./pool.config.js");
-const { john } = require("./node-file-io.js");
+const { pool } = require("./pool-config.js");
+const { john, alex } = require("./node-file-io.js");
 
 const addNewVisitor = async (visitor) => {
   try {
@@ -28,7 +28,7 @@ const listAllVisitors = async () => {
     const response = await pool.query(sqlQuery);
     return response.rows;
   } catch (err) {
-    console.log(`Error while listing visitors: ${err}`);
+    console.log(`Error while fetching visitors: ${err}`);
   }
 };
 
@@ -44,17 +44,50 @@ const deleteVisitor = async (visitorID) => {
   }
 };
 
-const updateVisitor = async (visitorID, newData) => {};
+const updateVisitor = async (columnName, newData, visitorID) => {
+  try {
+    const sqlQuery = `UPDATE Visitors SET ${columnName} = $1 WHERE ID = $2`;
+    const values = [newData, visitorID];
 
-let data = {
-  full_name: "Dave Chapel",
-  comments: "Actually pretty good",
+    await pool.query(sqlQuery, values);
+    console.log("Visitor Updated");
+  } catch (err) {
+    console.log(`Error while updating visitor: ${err}`);
+  }
 };
 
-let arr = [];
+const viewVisitor = async (visitorID) => {
+  try {
+    const sqlQuery = "SELECT * FROM Visitors WHERE ID = $1";
+    const values = [visitorID];
 
-for (let key in data) {
-  arr.push(`${key} = ${data[key]}`);
-}
+    const response = await pool.query(sqlQuery, values);
+    return response.rows;
+  } catch (err) {
+    console.log(`Error while fetching visitor: ${err}`);
+  }
+};
 
-console.log(arr);
+const deleteAllVisitors = async () => {
+  try {
+    const sqlQuery = "DELETE FROM Visitors";
+
+    await pool.query(sqlQuery);
+    console.log("All Visitors Deleted");
+  } catch (err) {
+    console.log(`Error while deleting all visitors: ${err}`);
+  }
+};
+
+const viewLastVisitor = async () => {
+  try {
+    const sqlQuery = "SELECT * FROM Visitors ORDER BY ID DESC LIMIT 1;";
+
+    const response = await pool.query(sqlQuery);
+    return response.rows;
+  } catch (err) {
+    console.log(`Error while fetching last visitor: ${err}`);
+  }
+};
+
+viewLastVisitor().then((response) => console.log(response));

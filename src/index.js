@@ -81,7 +81,7 @@ const deleteAllVisitors = async () => {
 
 const viewLastVisitor = async () => {
   try {
-    const sqlQuery = "SELECT * FROM Visitors ORDER BY ID DESC LIMIT 1;";
+    const sqlQuery = "SELECT * FROM Visitors ORDER BY ID DESC LIMIT 1";
 
     const response = await pool.query(sqlQuery);
     return response.rows;
@@ -90,4 +90,12 @@ const viewLastVisitor = async () => {
   }
 };
 
-viewLastVisitor().then((response) => console.log(response));
+module.exports = {
+  addNewVisitor,
+  viewLastVisitor,
+  deleteVisitor,
+  viewVisitor,
+  updateVisitor,
+  deleteAllVisitors,
+  listAllVisitors,
+};

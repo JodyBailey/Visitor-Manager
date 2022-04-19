@@ -6,12 +6,22 @@ const {
   updateVisitor,
   deleteAllVisitors,
   listAllVisitors,
+  createTable,
 } = require("../src/index");
 const { john } = require("../src/node-file-io");
 const { pool } = require("../src/pool-config");
 
 beforeEach(() => {
   spyOn(pool, "query");
+});
+
+describe("When the createTable() function is called", () => {
+  it("should create the visitors table", () => {
+    createTable();
+    expect(pool.query).toHaveBeenCalledWith(
+      "CREATE TABLE IF NOT EXISTS Visitors (ID SERIAL PRIMARY KEY, Full_Name varchar(100) NOT NULL, Age Integer NOT NULL, Visit_Date Date NOT NULL, Visit_Time TIME NOT NULL, Comments varchar(200), Assistant_Name varchar(100))"
+    );
+  });
 });
 
 describe("When the addNewVisitor() function is called", () => {

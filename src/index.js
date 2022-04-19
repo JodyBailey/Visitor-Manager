@@ -1,5 +1,17 @@
 const { pool } = require("./pool-config");
 
+const createTable = async () => {
+  try {
+    const sqlQuery =
+      "CREATE TABLE IF NOT EXISTS Visitors (ID SERIAL PRIMARY KEY, Full_Name varchar(100) NOT NULL, Age Integer NOT NULL, Visit_Date Date NOT NULL, Visit_Time TIME NOT NULL, Comments varchar(200), Assistant_Name varchar(100))";
+
+    await pool.query(sqlQuery);
+    console.log("Table Created");
+  } catch (err) {
+    console.log(`Error while creating table: ${err}`);
+  }
+};
+
 const addNewVisitor = async (visitor) => {
   try {
     const sqlQuery =
@@ -97,4 +109,5 @@ module.exports = {
   updateVisitor,
   deleteAllVisitors,
   listAllVisitors,
+  createTable,
 };

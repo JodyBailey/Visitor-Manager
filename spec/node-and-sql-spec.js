@@ -6,9 +6,9 @@ const {
   updateVisitor,
   deleteAllVisitors,
   listAllVisitors,
-} = require("../src/index.js");
-const { john } = require("../src/node-file-io.js");
-const { pool } = require("../src/pool-config.js");
+} = require("../src/index");
+const { john } = require("../src/node-file-io");
+const { pool } = require("../src/pool-config");
 
 beforeEach(() => {
   spyOn(pool, "query");
@@ -32,9 +32,11 @@ describe("When the addNewVisitor() function is called", () => {
 });
 
 describe("When the listAllVisitors() function is called", () => {
-  it("should return all the visitors from the database", () => {
+  it("should return all the visitors full names and IDs from the database", () => {
     listAllVisitors();
-    expect(pool.query).toHaveBeenCalledWith("SELECT * FROM Visitors");
+    expect(pool.query).toHaveBeenCalledWith(
+      "SELECT Full_Name, ID FROM Visitors"
+    );
   });
 });
 

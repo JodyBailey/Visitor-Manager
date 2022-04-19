@@ -19,7 +19,9 @@
   "homepage": "https://github.com/Umuzi-org/Jody-Bailey-280-node-file-io-javascript#readme",
   "dependencies": {
     "dotenv": "^16.0.0",
-    "jasmine": "^4.1.0",
     "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "jasmine": "^4.1.0"
   }
 }

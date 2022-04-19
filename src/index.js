@@ -1,5 +1,4 @@
-const { pool } = require("./pool-config.js");
-const { john, alex } = require("./node-file-io.js");
+const { pool } = require("./pool-config");
 
 const addNewVisitor = async (visitor) => {
   try {
@@ -23,7 +22,7 @@ const addNewVisitor = async (visitor) => {
 
 const listAllVisitors = async () => {
   try {
-    const sqlQuery = "SELECT * FROM Visitors";
+    const sqlQuery = "SELECT Full_Name, ID FROM Visitors";
 
     const response = await pool.query(sqlQuery);
     return response.rows;

@@ -25,7 +25,7 @@ const jsonFileName = (fullName) => {
 };
 
 const load = (fullName) => {
-  if (typeof fullName !== "string") throw "incorrect Input";
+  if (typeof fullName !== "string") throw new Error("incorrect Input");
 
   const fileName = jsonFileName(fullName);
 
@@ -44,13 +44,4 @@ const john = new Visitor(
   "Alexa Barbara"
 );
 
-const alex = new Visitor(
-  "Alex Cooper",
-  32,
-  "2 January 2022",
-  "12:22",
-  "Pretty Average",
-  "Alexa Barbara"
-);
-
-module.exports = { john, alex };
+module.exports = { john };

@@ -37,7 +37,10 @@ const listAllVisitors = async () => {
     const sqlQuery = "SELECT Full_Name, ID FROM Visitors";
 
     const response = await pool.query(sqlQuery);
-    return response.rows;
+
+    return response.rows.length === 0
+      ? "No users in the database"
+      : response.rows;
   } catch (err) {
     console.log(`Error while fetching visitors: ${err}`);
   }
@@ -73,7 +76,10 @@ const viewVisitor = async (visitorID) => {
     const values = [visitorID];
 
     const response = await pool.query(sqlQuery, values);
-    return response.rows;
+
+    return response.rows.length === 0
+      ? `User with ID: ${visitorID} not found`
+      : response.rows;
   } catch (err) {
     console.log(`Error while fetching visitor: ${err}`);
   }
@@ -95,7 +101,10 @@ const viewLastVisitor = async () => {
     const sqlQuery = "SELECT * FROM Visitors ORDER BY ID DESC LIMIT 1";
 
     const response = await pool.query(sqlQuery);
-    return response.rows;
+
+    return response.rows.length === 0
+      ? "No users in the database"
+      : response.rows;
   } catch (err) {
     console.log(`Error while fetching last visitor: ${err}`);
   }

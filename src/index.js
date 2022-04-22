@@ -1,3 +1,4 @@
+const { ConsoleReporter } = require("jasmine");
 const { pool } = require("./pool-config");
 
 const createTable = async () => {
@@ -60,6 +61,18 @@ const deleteVisitor = async (visitorID) => {
 
 const updateVisitor = async (columnName, newData, visitorID) => {
   try {
+    if (columnName.toLowerCase() === "id") {
+      throw new Error("IDs cannot be updated");
+    }
+
+    const allVisitorIDs = [];
+    const idResponse = await pool.query("SELECT ID FROM Visitors");
+    idResponse.rows.forEach((value) => allVisitorIDs.push(value.id));
+
+    if (!allVisitorIDs.includes(visitorID)) {
+      throw new Error(`Visitor with ID: ${visitorID} does not exist`);
+    }
+
     const sqlQuery = `UPDATE Visitors SET ${columnName} = $1 WHERE ID = $2`;
     const values = [newData, visitorID];
 

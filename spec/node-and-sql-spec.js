@@ -61,12 +61,17 @@ describe("When the deleteVisitor() function is called", () => {
 });
 
 describe("When the updateVisitor() function is called", () => {
-  it("should update the visitor with the passed in ID with the new data passed into the function", () => {
-    updateVisitor("full_name", "Joseph Saelee", 1);
-    expect(pool.query).toHaveBeenCalledWith(
-      "UPDATE Visitors SET full_name = $1 WHERE ID = $2",
-      ["Joseph Saelee", 1]
+  it("should log an error if the user tried to update a visitors ID", () => {
+    spyOn(console, "log");
+    updateVisitor("id", 2, 1);
+    expect(console.log).toHaveBeenCalledWith(
+      "Error while updating visitor: Error: IDs cannot be updated"
     );
+  });
+
+  it("should verify that the visitor with the passed in ID exists, then update the visitor with the passed in ID with the new data passed into the function", () => {
+    updateVisitor("full_name", "john", 1);
+    expect(pool.query).toHaveBeenCalledWith("SELECT ID FROM Visitors");
   });
 });
 

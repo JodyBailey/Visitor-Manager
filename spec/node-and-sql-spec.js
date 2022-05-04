@@ -28,7 +28,7 @@ describe("When the addNewVisitor() function is called", () => {
   it("should add the visitor that is passed into the addNewVisitor function to the database", () => {
     addNewVisitor(john);
     expect(pool.query).toHaveBeenCalledWith(
-      "INSERT INTO Visitors (full_name, age, visit_date, visit_time, comments, assistant_name) VALUES ($1, $2, $3, $4, $5, $6)",
+      "INSERT INTO Visitors (full_name, age, visit_date, visit_time, comments, assistant_name) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
       [
         john.fullName,
         john.age,

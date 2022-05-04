@@ -46,3 +46,24 @@ small {
 button {
   margin-top: 15px;
 }
+
+ul {
+  list-style-type: none;
+  padding-top: 10px;
+  margin: auto;
+  width: fit-content;
+  color: white;
+}
+
+li {
+  margin-top: 10px;
+  background-color: black;
+  border: 3px outset slateblue;
+  border-radius: 5px;
+}
+
+span {
+  padding-left: 10px;
+  width: 150px;
+  display: inline-block;
+}

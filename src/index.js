@@ -1,4 +1,3 @@
-const { ConsoleReporter } = require("jasmine");
 const { pool } = require("./pool-config");
 
 const createTable = async () => {
@@ -16,7 +15,7 @@ const createTable = async () => {
 const addNewVisitor = async (visitor) => {
   try {
     const sqlQuery =
-      "INSERT INTO Visitors (full_name, age, visit_date, visit_time, comments, assistant_name) VALUES ($1, $2, $3, $4, $5, $6)";
+      "INSERT INTO Visitors (full_name, age, visit_date, visit_time, comments, assistant_name) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
     const values = [
       visitor.fullName,
       visitor.age,
@@ -26,8 +25,9 @@ const addNewVisitor = async (visitor) => {
       visitor.assistantName,
     ];
 
-    await pool.query(sqlQuery, values);
+    const response = await pool.query(sqlQuery, values);
     console.log("Visitor Added");
+    return response.rows;
   } catch (err) {
     console.log(`Error while adding visitor: ${err}`);
   }

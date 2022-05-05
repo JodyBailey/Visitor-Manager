@@ -13,6 +13,7 @@ const { pool } = require("../src/pool-config");
 
 beforeEach(() => {
   spyOn(pool, "query");
+  console.log = jasmine.createSpy("log");
 });
 
 describe("When the createTable() function is called", () => {
@@ -62,7 +63,6 @@ describe("When the deleteVisitor() function is called", () => {
 
 describe("When the updateVisitor() function is called", () => {
   it("should log an error if the user tried to update a visitors ID", () => {
-    spyOn(console, "log");
     updateVisitor("id", 2, 1);
     expect(console.log).toHaveBeenCalledWith(
       "Error while updating visitor: Error: IDs cannot be updated"

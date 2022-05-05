@@ -123,8 +123,6 @@ const viewLastVisitor = async () => {
   }
 };
 
-createTable();
-
 module.exports = {
   addNewVisitor,
   viewLastVisitor,

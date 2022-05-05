@@ -1,9 +1,9 @@
 const { pool } = require("./pool-config");
+const fs = require("fs");
 
 const createTable = async () => {
   try {
-    const sqlQuery =
-      "CREATE TABLE IF NOT EXISTS Visitors (ID SERIAL PRIMARY KEY, Full_Name varchar(100) NOT NULL, Age Integer NOT NULL, Visit_Date Date NOT NULL, Visit_Time TIME NOT NULL, Comments varchar(200), Assistant_Name varchar(100))";
+    const sqlQuery = fs.readFileSync("./sql/create-table.sql", "utf-8");
 
     await pool.query(sqlQuery);
     console.log("Table Created");
@@ -122,6 +122,8 @@ const viewLastVisitor = async () => {
     console.log(`Error while fetching last visitor: ${err}`);
   }
 };
+
+createTable();
 
 module.exports = {
   addNewVisitor,

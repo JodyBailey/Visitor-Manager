@@ -1,12 +1,10 @@
 const { pool } = require("./pool-config");
-const fs = require("fs");
+const { query } = require("./sql-queries");
 
 const createTable = async () => {
   try {
-    const sqlQuery = fs.readFileSync("./sql/create-table.sql", "utf-8");
-
-    await pool.query(sqlQuery);
-    console.log("Table Created");
+    await pool.query(query.createTable);
+    console.log("Create Table Query Executed Successfully");
   } catch (err) {
     console.log(`Error while creating table: ${err}`);
   }
@@ -14,8 +12,6 @@ const createTable = async () => {
 
 const addNewVisitor = async (visitor) => {
   try {
-    const sqlQuery =
-      "INSERT INTO Visitors (full_name, age, visit_date, visit_time, comments, assistant_name) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
     const values = [
       visitor.fullName,
       visitor.age,
@@ -25,7 +21,7 @@ const addNewVisitor = async (visitor) => {
       visitor.assistantName,
     ];
 
-    const response = await pool.query(sqlQuery, values);
+    const response = await pool.query(query.addNewVisitor, values);
     console.log("Visitor Added");
     return response.rows;
   } catch (err) {
@@ -35,9 +31,7 @@ const addNewVisitor = async (visitor) => {
 
 const listAllVisitors = async () => {
   try {
-    const sqlQuery = "SELECT Full_Name, ID FROM Visitors";
-
-    const response = await pool.query(sqlQuery);
+    const response = await pool.query(query.listAllVisitors);
 
     return response.rows.length === 0
       ? "No users in the database"
@@ -49,10 +43,9 @@ const listAllVisitors = async () => {
 
 const deleteVisitor = async (visitorID) => {
   try {
-    const sqlQuery = "DELETE FROM Visitors WHERE ID = $1";
     const value = [visitorID];
 
-    await pool.query(sqlQuery, value);
+    await pool.query(query.deleteVisitor, value);
     console.log("Visitor Deleted");
   } catch (err) {
     console.log(`Error while deleting visitors: ${err}`);
@@ -66,7 +59,7 @@ const updateVisitor = async (columnName, newData, visitorID) => {
     }
 
     const allVisitorIDs = [];
-    const idResponse = await pool.query("SELECT ID FROM Visitors");
+    const idResponse = await pool.query(query.listVisitorsIDs);
     idResponse.rows.forEach((value) => allVisitorIDs.push(value.id));
 
     if (!allVisitorIDs.includes(visitorID)) {
@@ -85,10 +78,8 @@ const updateVisitor = async (columnName, newData, visitorID) => {
 
 const viewVisitor = async (visitorID) => {
   try {
-    const sqlQuery = "SELECT * FROM Visitors WHERE ID = $1";
     const values = [visitorID];
-
-    const response = await pool.query(sqlQuery, values);
+    const response = await pool.query(query.viewVisitor, values);
 
     return response.rows.length === 0
       ? `User with ID: ${visitorID} not found`
@@ -100,9 +91,7 @@ const viewVisitor = async (visitorID) => {
 
 const deleteAllVisitors = async () => {
   try {
-    const sqlQuery = "DELETE FROM Visitors";
-
-    await pool.query(sqlQuery);
+    await pool.query(query.deleteAllVisitors);
     console.log("All Visitors Deleted");
   } catch (err) {
     console.log(`Error while deleting all visitors: ${err}`);
@@ -111,9 +100,7 @@ const deleteAllVisitors = async () => {
 
 const viewLastVisitor = async () => {
   try {
-    const sqlQuery = "SELECT * FROM Visitors ORDER BY ID DESC LIMIT 1";
-
-    const response = await pool.query(sqlQuery);
+    const response = await pool.query(query.viewLastVisitor);
 
     return response.rows.length === 0
       ? "No users in the database"

@@ -1,4 +1,5 @@
 const { addNewVisitor } = require("../src/index");
+const { badRequestMsg } = require("../src/bad-request-message");
 const path = require("path");
 
 const getForm = (req, res) => {
@@ -21,20 +22,39 @@ const postForm = async (req, res) => {
       assistantName: assistantName,
     });
   } catch (err) {
-    res.status(400).json({
-      success: false,
-      message:
-        "Error while adding visitor. Make sure the inputs matches the correct formats",
-      formats: {
-        fullName: ["Any Characters of Any Format", "Max Length 100"],
-        age: "Any One Number",
-        visitDate: "yyyy-mm-dd",
-        visitTime: "24 Hour Time",
-        comments: ["Any Characters of Any Format", "Max Length 200"],
-        assistantName: ["Any Characters of Any Format", "Max Length 100"],
-      },
-    });
+    res.status(400).json(badRequestMsg);
   }
 };
 
-module.exports = { getForm, postForm };
+const addNewVisit = async (req, res) => {
+  try {
+    const response = await addNewVisitor({
+      fullName: req.body.fullName,
+      age: req.body.age,
+      visitDate: req.body.visitDate,
+      visitTime: req.body.visitTime,
+      comments: req.body.comments || "",
+      assistantName: req.body.assistantName || "",
+    });
+    console.log(response);
+    res.json({
+      success: true,
+      response: {
+        message: "The following was added to the database",
+        data: {
+          id: response[0].id,
+          fullName: response[0].full_name,
+          age: response[0].age,
+          visitDate: response[0].visit_date,
+          visitTime: response[0].visit_time,
+          comments: response[0].comments,
+          assistantName: response[0].assistant_name,
+        },
+      },
+    });
+  } catch (err) {
+    res.status(400).json(badRequestMsg);
+  }
+};
+
+module.exports = { getForm, postForm, addNewVisit };

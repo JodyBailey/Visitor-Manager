@@ -53,11 +53,11 @@ describe("When the deleteVisitor() function is called", () => {
 });
 
 describe("When the updateVisitor() function is called", () => {
-  it("should log an error if the user tried to update a visitors ID", () => {
-    updateVisitor("id", 2, 1);
-    expect(console.log).toHaveBeenCalledWith(
-      "Error while updating visitor: Error: IDs cannot be updated"
-    );
+  it("should return IDs cannot be updated if the user tried to update a visitors ID and should not call pool.query", () => {
+    updateVisitor("id", 2, 1).then((response) => {
+      expect(response).toBe("IDs cannot be updated");
+    });
+    expect(pool.query).not.toHaveBeenCalled();
   });
 
   it("should verify that the visitor with the passed in ID exists, then update the visitor with the passed in ID with the new data passed into the function", () => {

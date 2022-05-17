@@ -55,7 +55,7 @@ const deleteVisitor = async (visitorID) => {
 const updateVisitor = async (columnName, newData, visitorID) => {
   try {
     if (columnName.toLowerCase() === "id") {
-      throw new Error("IDs cannot be updated");
+      return "IDs cannot be updated";
     }
 
     const allVisitorIDs = [];
@@ -63,16 +63,18 @@ const updateVisitor = async (columnName, newData, visitorID) => {
     idResponse.rows.forEach((value) => allVisitorIDs.push(value.id));
 
     if (!allVisitorIDs.includes(visitorID)) {
-      throw new Error(`Visitor with ID: ${visitorID} does not exist`);
+      return `Visitor with ID: ${visitorID} does not exist`;
     }
 
-    const sqlQuery = `UPDATE Visitors SET ${columnName} = $1 WHERE ID = $2`;
+    const sqlQuery = `UPDATE Visitors SET ${columnName} = $1 WHERE ID = $2 RETURNING *`;
     const values = [newData, visitorID];
 
-    await pool.query(sqlQuery, values);
+    const response = await pool.query(sqlQuery, values);
     console.log("Visitor Updated");
+    return response.rows;
   } catch (err) {
     console.log(`Error while updating visitor: ${err}`);
+    return err.message;
   }
 };
 

@@ -10,7 +10,7 @@ const {
 } = require("../src/index");
 const { john } = require("../src/node-file-io");
 const { pool } = require("../src/pool-config");
-const { query } = require("../src/sql-queries");
+const { query } = require("../src/objects");
 
 beforeEach(() => {
   spyOn(pool, "query");

@@ -1,9 +1,10 @@
 const { pool } = require("./pool-config");
-const { query } = require("./sql-queries");
+const { query } = require("./objects");
 
 const createTable = async () => {
   try {
     await pool.query(query.createTable);
+
     console.log("Create Table Query Executed Successfully");
   } catch (err) {
     console.log(`Error while creating table: ${err}`);
@@ -22,10 +23,12 @@ const addNewVisitor = async (visitor) => {
     ];
 
     const response = await pool.query(query.addNewVisitor, values);
+
     console.log("Visitor Added");
     return response.rows;
   } catch (err) {
     console.log(`Error while adding visitor: ${err}`);
+    return err.message;
   }
 };
 
@@ -45,8 +48,10 @@ const deleteVisitor = async (visitorID) => {
   try {
     const value = [visitorID];
 
-    await pool.query(query.deleteVisitor, value);
+    const response = await pool.query(query.deleteVisitor, value);
+
     console.log("Visitor Deleted");
+    return response.rows;
   } catch (err) {
     console.log(`Error while deleting visitors: ${err}`);
   }
@@ -70,6 +75,7 @@ const updateVisitor = async (columnName, newData, visitorID) => {
     const values = [newData, visitorID];
 
     const response = await pool.query(sqlQuery, values);
+
     console.log("Visitor Updated");
     return response.rows;
   } catch (err) {
@@ -88,12 +94,14 @@ const viewVisitor = async (visitorID) => {
       : response.rows;
   } catch (err) {
     console.log(`Error while fetching visitor: ${err}`);
+    return err.message;
   }
 };
 
 const deleteAllVisitors = async () => {
   try {
     await pool.query(query.deleteAllVisitors);
+
     console.log("All Visitors Deleted");
   } catch (err) {
     console.log(`Error while deleting all visitors: ${err}`);
